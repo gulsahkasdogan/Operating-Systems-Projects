@@ -25,7 +25,6 @@ Date: 24.05.2019
 #define for_each_process(p) \
     for (p = &init_task ; (p = next_task(p)) != &init_task ; )
 
-
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Slanci");
 
@@ -74,14 +73,10 @@ static int mod_init(void){
  			get_fs_root(current_fs, &root); //path of file
  			cwd = d_path(&root,buf,100*sizeof(char)); //convert to string 
 			printk("root: %s",cwd);
- 			
 
 			while(files_table->fd[i] != NULL) { 
 				//means this process has open files 
-
 				//files_table->fd[i] == file
-
-
  				files_path = files_table->fd[i]->f_path; //path of file
  				current_inode = file_inode(files_table->fd[i]);//inode of file
 
@@ -133,18 +128,14 @@ static int mod_init(void){
  					printk("Block No %d: %p", j, copy_array[j]);
  					j++;
  				}
- 
  				i++;
  			}
 		}
 	}
-
 	return 0;
 }
-
 static void mod_exit(void){
 	printk(KERN_ALERT "Goodbye\n");
 }
-
 module_init(mod_init);
 module_exit(mod_exit);
